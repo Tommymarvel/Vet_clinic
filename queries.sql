@@ -11,12 +11,13 @@ SELECT * from animals WHERE weight_kg >= 10.4 AND weight_kg <= 17.3;
 
 begin;
 UPDATE animals SET species = 'unspecified';
+SELECT species from animals;
 rollback;
 select * from animals;
 
 begin
 update animals set species = 'digimon' where name like '%mon';
-UPDATE animals set species = 'pokemon' WHERE name not like '%mon';
+UPDATE animals SET species = 'pokemon' WHERE species IS NULL;
 commit
 select * from animals
 
@@ -54,10 +55,12 @@ SELECT max(escape_attempts),neutered FROM animals WHERE neutered = true OR neute
 
 select * from animals;
 
-SELECT max(weight_kg),min(weight_kg) FROM animals;
+SELECT species, MIN(weight_kg), MAX(weight_kg) FROM animals GROUP BY species;
 
 select * from animals;
 
-SELECT  cast(avg(escape_attempts) AS DECIMAL(5,1)) FROM animals WHERE EXTRACT(year from date_of_birth) BETWEEN 1990 and 2000;
+SELECT species, cast(avg(escape_attempts) AS DECIMAL(5,1)) FROM animals
+   GROUP BY species
+   WHERE  date_of_birth >= '1990/01/01' AND date_of_birth <= '2000/12/31';
 
 select * from animals;
