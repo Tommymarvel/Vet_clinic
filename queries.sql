@@ -64,3 +64,64 @@ SELECT species, cast(avg(escape_attempts) AS DECIMAL(5,1)) FROM animals
    WHERE  date_of_birth >= '1990/01/01' AND date_of_birth <= '2000/12/31';
 
 select * from animals;
+
+SELECT 
+an.name AS animal_name,
+ow.full_name AS owner_name 
+FROM animals an 
+INNER JOIN owners ow
+ON ow.id = an.owners_id 
+WHERE ow.full_name = 'Melody Pond';
+
+SELECT 
+an.name AS animal_name, 
+sp.name AS species 
+FROM animals an 
+INNER JOIN species sp
+ON sp.id = an.species_id
+WHERE sp.name = 'Pokemon';
+
+SELECT
+ow.full_name as owner_name,
+an.name as animal_name
+FROM owners ow
+LEFT JOIN animals an
+ON ow.id = an.owners_id
+
+SELECT 
+sp.name AS species_name,
+COUNT(an.name) AS animal_count
+FROM animals an 
+INNER JOIN species sp
+ON sp.id = an.species_id
+GROUP BY sp.name;
+
+SELECT 
+ow.full_name as owner_name,
+sp.name as species_name,
+an.name as animal_name
+FROM animals an 
+INNER JOIN owners ow
+ON ow.id = an.owners_id
+INNER JOIN species sp
+ON sp.id = an.owners_id
+WHERE ow.full_name = 'Jennifer Orwell';
+
+SELECT 
+ow.full_name as owner_name,
+an.name as animal_name,
+an.escape_attempts as check_attempts
+FROM animals an 
+INNER JOIN owners ow
+ON ow.id = an.owners_id
+WHERE an.escape_attempts = 0 
+AND ow.full_name = 'Dean Winchester';
+
+SELECT 
+COUNT(an.name) AS animal_count,
+ow.full_name AS owner_name 
+FROM animals an 
+INNER JOIN owners ow
+ON ow.id = an.owners_id 
+GROUP BY ow.full_name 
+ORDER BY MAX(an.name) DESC;
